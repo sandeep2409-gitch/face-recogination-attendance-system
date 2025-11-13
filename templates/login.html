@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: aliceblue;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .login-box {
+            background:gainsboro;
+            padding: 40px;
+            border-radius: 20px;
+            width: 320px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease-in-out;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #222;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 15px;
+            background: #fafafa;
+            color: #333;
+            transition: all 0.2s ease-in-out;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007aff;
+            box-shadow: 0 0 0 3px rgba(0,122,255,0.15);
+            background: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #007aff;
+            border: none;
+            color: white;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: #005fcc;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.25);
+        }
+
+        .error {
+            color: #d9534f;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .login-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+        }
+
+       
+    </style>
+</head>
+<body>
+    <form class="login-box" method="POST">
+        <h2>Admin Login</h2>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

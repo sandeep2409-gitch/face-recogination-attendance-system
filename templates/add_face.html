@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Face</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Text&display=swap');
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+                Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background: #f0f0f3;
+            color: #1c1c1e;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #007aff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        main {
+            min-height: calc(100vh - 56px);
+            padding-top: 56px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass-module {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            box-shadow:
+                0 8px 32px 0 rgba(31, 38, 135, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 32px 40px 40px 40px;
+            width: 360px;
+            max-width: 90vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .glass-module > h1 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin: 0 0 24px 0;
+            color: #007aff;
+            user-select: none;
+        }
+
+        #cameraPreview {
+            width: 100%;
+            height: 240px;
+            border-radius: 16px;
+            object-fit: cover;
+            background: #e0e4eb;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        input[type="text"] {
+            background: #f7f8fa;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            color: #1c1c1e;
+            box-shadow:
+                0 4px 8px rgba(0, 122, 255, 0.1),
+                inset 0 0 8px rgba(0, 122, 255, 0.12);
+            transition: box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            background: #ffffff;
+            box-shadow:
+                0 0 12px 2px rgba(0, 122, 255, 0.4),
+                inset 0 0 10px rgba(0, 122, 255, 0.25);
+            outline: none;
+        }
+
+        button {
+            background: #007aff;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 14px 0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 122, 255, 0.6);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #3399ff;
+            box-shadow: 0 0 28px rgba(51, 153, 255, 0.9);
+        }
+
+        a button {
+            margin-top: 8px;
+            background: #e0e0e5;
+            color: #3a3a3c;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        a button:hover {
+            background: #c7c7cc;
+            color: #1c1c1e;
+        }
+
+        .error {
+            color: #ff3b30;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav>Add New Face</nav>
+
+    <main>
+        <section class="glass-module">
+            <h1>Add New Face</h1>
+
+            <!-- 🎥 Live camera preview -->
+            <video id="cameraPreview" autoplay playsinline muted></video>
+
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                {% if error %}
+                <p class="error">{{ error }}</p>
+                {% endif %}
+                <input type="text" name="name" placeholder="Enter Name" required>
+                <button type="submit">Add Face</button>
+                <a href="{{ url_for('admin_panel') }}"><button type="button">Back</button></a>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const video = document.getElementById('cameraPreview');
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (err) {
+                alert("Camera access denied. Please allow camera permissions in your browser.");
+                console.error("Camera error:", err);
+            }
+        }
+
+        startCamera();
+    </script>
+</body>
+</html>
